@@ -7,53 +7,67 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "authors")
-public class Authors {
-
+@Table(name = "author")
+public class Authors extends Auditable
+{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long authorid;
 
-    private String lastname;
-
-    private String firstname;
+    private String fname;
+    private String lname;
 
     @ManyToMany(mappedBy = "authors")
     @JsonIgnoreProperties("authors")
     private List<Book> books = new ArrayList<>();
 
-    public Authors() {
+    public Authors()
+    {
     }
 
-    public long getAuthorid() {
+    public Authors(String fname, String lname)
+    {
+        this.fname = fname;
+        this.lname = lname;
+    }
+
+    public long getAuthorid()
+    {
         return authorid;
     }
 
-    public void setAuthorid(long authorid) {
+    public void setAuthorid(long authorid)
+    {
         this.authorid = authorid;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getFname()
+    {
+        return fname;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setFname(String fname)
+    {
+        this.fname = fname;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getLname()
+    {
+        return lname;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setLname(String lname)
+    {
+        this.lname = lname;
     }
 
-    public List<Book> getBooks() {
+    public List<Book> getBooks()
+    {
         return books;
     }
 
-    public void setBooks(List<Book> books) {
+    public void setBooks(List<Book> books)
+    {
         this.books = books;
     }
 }

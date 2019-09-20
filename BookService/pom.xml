@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.lambdaschool</groupId>
-    <artifactId>starthere</artifactId>
+    <artifactId>bookservice</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>starthere</name>
+    <name>bookservice</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
@@ -136,7 +136,7 @@
 
     <build>
 <!--        <finalName>${project.artifactId}</finalName>-->
-        <finalName>jrmmba-oauthmin</finalName>
+        <finalName>jazz-code-bookservice</finalName>
 
         <plugins>
             <plugin>
@@ -151,7 +151,8 @@
                 <artifactId>heroku-maven-plugin</artifactId>
                 <version>2.0.10</version>
                 <configuration>
-                    <appName>${project.build.finalName}</appName>
+<!--                    <appName>${project.build.finalName}</appName>-->
+                    <appName>jazz-code-bookservice</appName>
                     <includeTarget>false</includeTarget>
                     <includes>
                         <!--   For windows      <include>${project.build.directory}\${project.build.finalName}.jar</include>-->

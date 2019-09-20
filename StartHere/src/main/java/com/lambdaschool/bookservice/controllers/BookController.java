@@ -2,11 +2,10 @@ package com.lambdaschool.bookservice.controllers;
 
 import com.lambdaschool.bookservice.models.Authors;
 import com.lambdaschool.bookservice.models.Book;
+import com.lambdaschool.bookservice.models.ErrorDetail;
 import com.lambdaschool.bookservice.services.AuthorsService;
 import com.lambdaschool.bookservice.services.BookService;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -67,10 +66,46 @@ public class BookController {
         return new ResponseEntity<>(allAuthors, HttpStatus.OK);
     }
 
-    @DeleteMapping("/courses/{courseid}")
-    public ResponseEntity<?> deleteCourseById(@PathVariable long courseid)
+    @ApiOperation(value = "Updates a Book",
+            response = void.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Book Was Updated", response = void.class),
+            @ApiResponse(code = 500, message = "Error Updating The Book", response = ErrorDetail.class)
+    } )
+    @PutMapping(value = "/data/books/{id}")
+    public ResponseEntity<?> updateBook(@RequestBody
+                                                Book updateBook,
+                                        @PathVariable
+                                                long id)
     {
-        bookService.delete(courseid);
+        bookService.update(updateBook, id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "Assigns a book to author",
+            response = void.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "New Book was added to Author", response = void.class),
+            @ApiResponse(code = 500, message = "Error adding your book", response = ErrorDetail.class)
+    } )
+    @PostMapping(value = "/data/{bookid}/authors/{authorid}")
+    public ResponseEntity<?> addBookAuthors(@PathVariable long bookid, @PathVariable long authorid)
+    {
+        bookService.save(bookid, authorid);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "Deletes a Book",
+            response = void.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Book Was Deleted", response = void.class),
+            @ApiResponse(code = 500, message = "Error Deleting Your Book", response = ErrorDetail.class)
+    } )
+    @DeleteMapping("/data/books/{id}")
+    public ResponseEntity<?> deleteCourseById(@PathVariable long id)
+    {
+        bookService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

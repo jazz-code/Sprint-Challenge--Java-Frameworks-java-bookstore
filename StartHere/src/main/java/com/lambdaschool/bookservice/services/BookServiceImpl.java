@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,14 +61,33 @@ public class BookServiceImpl implements BookService {
         bookrepo.deleteById(id);
     }
 
+    @Transactional
     @Override
-    public Book save(Book book) {
-        return null;
+    public Book update(Book book, long id)
+    {
+        Book currentBook = bookrepo.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(Long.toString(id)));
+        if (book.getBooktitle() != null) {
+            currentBook.setBooktitle(book.getBooktitle());
+        }
+        if (book.getCopy() != 0) {
+            currentBook.setCopy(book.getCopy());
+        }
+        if (book.getISBN() != null) {
+            currentBook.setISBN(book.getISBN());
+        }
+        return bookrepo.save(currentBook);
     }
 
-//    @Override
-//    public Book save(Book book) {
-//        return null;
-//    }
+    @Transactional
+    @Override
+    public Book save(long bookid, long authorid) {
+//        Book newBook = new Book();
+//
+//        newBook.(book.getStudname());
+//
+//        return bookrepo.save(newBook);
 
+       return bookrepo.addBookAuths(bookid, authorid);
+    }
 }
